@@ -1,0 +1,13 @@
+name: nihongo
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - cpuonly
+  - pytorch
+  - torchaudio
+  - torchvision
+  - transformers
+  - jupyterlab
+  - ipywidgets
+prefix: /home/zack/miniconda3/envs/nihongo
