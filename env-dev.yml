@@ -1,5 +1,6 @@
 name: nihongo
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - python=3.7
@@ -10,4 +11,5 @@ dependencies:
   - transformers
   - jupyterlab
   - ipywidgets
+  - pandas
 prefix: /home/zack/miniconda3/envs/nihongo
