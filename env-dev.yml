@@ -12,4 +12,5 @@ dependencies:
   - jupyterlab
   - ipywidgets
   - pandas
+  - pyconll
 prefix: /home/zack/miniconda3/envs/nihongo
