@@ -10,24 +10,20 @@ class ConllDataFrame(pd.DataFrame):
         self["text"] = self.sent.apply(lambda x: x.text)
 
     def get_tokens(self):
-        return (
-            pd.concat([SentenceDataFrame(x, x.id) for x in self.sent])
-            .reset_index()
-            .rename(columns={"index": "sent_idx"})
-        )
+        return pd.concat([SentenceDataFrame(x, x.id) for x in self.sent]).reset_index()
 
 
 class SentenceDataFrame(pd.DataFrame):
     @classmethod
     def from_conll(cls, data: Conll):
-        return (
-            pd.concat([cls(x, x.id) for x in data])
-            .reset_index()
-            .rename(columns={"index": "sent_idx"})
-        )
+        return pd.concat([cls(x, x.id) for x in data]).reset_index()
 
     def __init__(self, data: Sentence, sent_id: str = None):
         super().__init__(dict(tokens=list(data)))
+        self.set_index(
+            self.tokens.apply(lambda x: x.id).astype("int").rename("sent_idx"),
+            inplace=True,
+        )
         self["text"] = self.tokens.apply(lambda x: x.form)
         self["head"] = self.tokens.apply(lambda x: x.head)
         self["upos"] = self.tokens.apply(lambda x: x.upos)
