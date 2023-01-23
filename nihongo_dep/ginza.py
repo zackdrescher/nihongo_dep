@@ -1,3 +1,4 @@
+import ginza
 import pandas as pd
 import spacy
 from spacy.tokens import Doc
@@ -15,7 +16,8 @@ class GinzaDataFrame(pd.DataFrame):
 
     @classmethod
     def from_texts(cls, texts: pd.Series):
-        return cls.from_docs(apply(texts))
+        sents = pd.DataFrame(dict(text=texts, ginza=apply(texts)))
+        return sents, cls.from_docs(sents.ginza)
 
     @classmethod
     def from_docs(cls, docs: pd.Series):
@@ -42,6 +44,9 @@ class GinzaDataFrame(pd.DataFrame):
         self["tag"] = self.token.apply(lambda token: token.tag_)
         self["dep"] = self.token.apply(lambda token: token.dep_)
         self["head"] = self.token.apply(lambda token: token.head.i)
+
+        self["bunsetu_label"] = ginza.bunsetu_bi_labels(data)
+        self["bunsetu_position"] = ginza.bunsetu_position_types(data)
 
         if sent_id is not None:
             self["sent_id"] = sent_id
