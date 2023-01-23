@@ -1,2 +1,5 @@
 # https://github.com/UniversalDependencies/UD_Japanese-GSD
 *.conllu
+*.txt
+*.md
+*.xml
