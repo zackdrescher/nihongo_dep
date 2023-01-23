@@ -1,9 +1,14 @@
 import pandas as pd
+import pyconll
 from pyconll.unit.conll import Conll
 from pyconll.unit.sentence import Sentence
 
 
 class ConllDataFrame(pd.DataFrame):
+    @classmethod
+    def from_file(cls, path: str):
+        return cls(pyconll.load_from_file(path))
+
     def __init__(self, data: Conll):
         super().__init__(dict(sent=list(data)))
         self["id"] = self.sent.apply(lambda x: x.id)
@@ -14,6 +19,10 @@ class ConllDataFrame(pd.DataFrame):
 
 
 class SentenceDataFrame(pd.DataFrame):
+    @classmethod
+    def from_file(cls, path: str):
+        return cls.from_conll(pyconll.load_from_file(path))
+
     @classmethod
     def from_conll(cls, data: Conll):
         return pd.concat([cls(x, x.id) for x in data]).reset_index()
