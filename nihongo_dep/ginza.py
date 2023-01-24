@@ -3,20 +3,25 @@ import pandas as pd
 import spacy
 from spacy.tokens import Doc
 
+nlp = spacy.load("ja_ginza_electra")
 
-def apply(data: pd.Series):
-    nlp = spacy.load("ja_ginza_electra")
+
+def apply(text: str):
+    return nlp(text)
+
+
+def apply_series(data: pd.Series):
     return data.apply(lambda x: nlp(x))
 
 
 class GinzaDataFrame(pd.DataFrame):
     @classmethod
     def from_text(cls, text: str):
-        return cls(apply(pd.Series([text])))
+        return cls(apply(text))
 
     @classmethod
     def from_texts(cls, texts: pd.Series):
-        sents = pd.DataFrame(dict(text=texts, ginza=apply(texts)))
+        sents = pd.DataFrame(dict(text=texts, ginza=apply_series(texts)))
         return sents, cls.from_docs(sents.ginza)
 
     @classmethod
