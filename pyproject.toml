@@ -13,6 +13,7 @@ pandas = "^1.5.3"
 ginza = "^5.1.2"
 ja-ginza-electra = "^5.1.2"
 flask = "^2.2.2"
+flask-cors = "^3.0.10"
 
 
 [tool.poetry.group.dev.dependencies]
