@@ -11,5 +11,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 def parse(input: str):
     return dict(
         text=input,
-        tokens=ginza.GinzaDataFrame.from_text(input).to_dict(orient="records"),
+        tokens=ginza.GinzaDataFrame.from_text(input)
+        .drop(columns=["token"])
+        .to_dict(orient="records"),
     )
