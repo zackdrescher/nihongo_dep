@@ -36,9 +36,11 @@ class GinzaDataFrame(pd.DataFrame):
             inplace=True,
         )
 
+        self["text"] = self.token.apply(lambda token: token.text)
         self["orth"] = self.token.apply(lambda token: token.orth_)
         self["lemma"] = self.token.apply(lambda token: token.lemma_)
         self["norm"] = self.token.apply(lambda token: token.norm_)
+        self["morph"] = self.token.apply(lambda token: token.morph)
         self["morph_reading"] = self.token.apply(
             lambda token: token.morph.get("Reading")
         )
