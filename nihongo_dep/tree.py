@@ -50,12 +50,15 @@ def parse_node(node: pd.Series, tokens: pd.DataFrame):
     remaining = children.drop(phrase.index, errors="ignore")
 
     out = dict(
-        phrase=phrase.text.str.cat(),
+        text=phrase.text.str.cat(),
         tokens=phrase.drop(columns=["token"]).to_dict("records"),
     )
 
     if not remaining.empty:
         out["children"] = [parse_node(x, tokens) for _, x in remaining.iterrows()]
+        out["type"] = "phrase"
+    else:
+        out["type"] = "token"
 
     return out
 
